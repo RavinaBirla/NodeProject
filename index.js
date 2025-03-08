@@ -1,19 +1,31 @@
 require("dotenv").config()
-// or use
-// require("dotenv").config({path: './env'})
-const express = require("express")
+const app = require("./src/app"); 
 const connectDB = require("./src/db/db"); 
-const app = express()
+
 
 // user database connectivity
+app.on("error", (error)=>{
+    console.log("error:", error);
+    throw error
+}),
+
+
 connectDB()
+.then(
+    app.listen(process.env.PORT || 4001, ()=>{
+        console.log(`server is ruuning on port ${process.env.PORT}`)
+    })
+)
+.catch((error) =>{
+    console.log("connection failed")
+}
+)
 
 
 
 
 
-
-
+// require("dotenv").config({path: './env'})
 // const {DB_NAME} = require('./src/constant')
 // ( async ()=>{
 //     try{
